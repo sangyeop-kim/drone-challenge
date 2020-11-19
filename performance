@@ -1,0 +1,60 @@
+1.4066320365071296
+
+ckpt = 'angle/epoch=299_val_loss=0.1106'
+model_name = 'My_Angle_Resnet'
+print('start angle')
+angle_model = get_model(model_name, hyper)
+angle_model = angle_model.load_model(ckpt)
+print()
+
+###################
+ckpt = 'class/epoch=312_val_loss=0.8434'
+model_name = 'My_Class_Resnet'
+print('start class')
+class_model = get_model(model_name, hyper)
+class_model = class_model.load_model(ckpt)
+
+angle_model = angle_model.cuda()
+class_model = class_model.cuda()
+
+---------------------------------------------------------------
+
+1.2328120236694813
+
+###### angle #####
+ckpt = 'angle/epoch=124_val_loss=0.0683'
+model_name = 'My_Angle_Resnet'
+print('start angle')
+angle_model = get_model(model_name, hyper)
+angle_model = angle_model.load_model(ckpt)
+print()
+
+###################
+ckpt = 'class/epoch=312_val_loss=0.8434'
+model_name = 'My_Class_Resnet'
+print('start class')
+class_model = get_model(model_name, hyper)
+class_model = class_model.load_model(ckpt)
+
+angle_model = angle_model.cuda()
+class_model = class_model.cuda()
+
+---------------------------------------------------------------
+1.08281201928854
+
+ckpt = 'angle/epoch=124_val_loss=0.0683'
+model_name = 'My_Angle_Resnet'
+print('start angle')
+angle_model = get_model(model_name, hyper)
+angle_model = angle_model.load_model(ckpt)
+print()
+
+###################
+ckpt = 'class/epoch=174_val_loss=0.5850'
+model_name = 'My_Class_Resnet'
+print('start class')
+class_model = get_model(model_name, hyper)
+class_model = class_model.load_model(ckpt)
+
+angle_model = angle_model.cuda()
+class_model = class_model.cuda()
