@@ -8,17 +8,19 @@ import json
 data_path = sys.argv[1]
 
 folder = 'model_ckpt'
-
+num = 7
 ###### angle #####
-ckpt = 'angle/epoch=124_val_loss=0.0683'
-model_name = 'My_Angle_Resnet'
+angle = ['Resnet', 'My_Angle_Resnet', 'My_Angle_Resnet', 'Resnet', 'My_Angle_Resnet', 'Resnet', 'My_Angle_Resnet']
+ckpt = 'angle/%s/model' % num
+model_name = angle[num-1]
 print('start angle')
 angle_model, angle_dataloader = load_model_data(folder, model_name, ckpt, data_path)
 print()
 
 ###################
-ckpt = 'class/epoch=174_val_loss=0.5850'
-model_name = 'My_Resnet'
+class_ = ['My_Resnet', 'My_Resnet', 'My_Class_Resnet', 'My_Resnet', 'My_Class_Resnet', 'My_Class_Resnet', 'Class_Each_NN']
+ckpt = 'class/%s/model' % num
+model_name = class_[num-1]
 print('start class')
 class_model, class_dataloader = load_model_data(folder, model_name, ckpt, data_path)
 
@@ -46,6 +48,8 @@ for (angle_batch, id_), (class_batch, id_) in zip(angle_dataloader, class_datalo
             id_dict = {}
             id_dict['id'] = int(id_[num].item())
             a, c = inference_rule(ang, cls_)
+            # a = inference_rule(ang)
+            # c = inference_rule(cls_)
             id_dict['angle'] = a 
             id_dict['class'] = c
             results.append(id_dict)

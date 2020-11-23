@@ -144,7 +144,6 @@ class My_MSE_small(_Loss):
     
 def inference_rule(ang, cls_=None):
     if cls_ is not None:
-        print(ang)
         if np.max(ang) < 1.:
             ang = ang == np.max(ang)
         else:
@@ -163,13 +162,10 @@ def inference_rule(ang, cls_=None):
         total_cls_ = np.sum(cls_)
         diff = total_cls_ - total_ang 
         if diff > 0:
-            print(cls_)
             count = 0
             non_zero_rank = np.argsort(ori_cls_)[::-1][ori_cls_[np.argsort(ori_cls_)[::-1]]>0]
-            print(non_zero_rank)
             sub = [0, 0, 0]
             for i in range(diff):
-                print(count)
                 if count == len(non_zero_rank):
                     count=0
                     

@@ -25,6 +25,38 @@ def get_model(model_name, hyperparameters):
     
     return model_dict[model_name]
 
+# def load_model_data(folder, model_name, ckpt, data_path):
+#     hyper = EasyDict({'lr' : 0.0003,
+#                     'max_epochs' :50,
+#                     'step_size' : 10,
+#                     'gamma' : 0.9,
+#                     'batch_size' : 32,
+#                     'test_batch_size' : 32,
+#                     'gpus' : [0],
+#                     'num_workers' : 128,
+#                     'auto_lr_find' : False,
+#                     'save_top_k' : 3,
+#                     'folder' : 'best_model',
+#                     'early_stopping' : True,
+#                     'patience' : 5
+#                     })
+    
+#     hyper.folder = folder
+#     model = get_model(model_name, hyper)
+#     model = model.load_model(ckpt)
+#     label_option = model.hparams.label_option
+#     method = model.hparams.method
+#     denoise = model.hparams.denoise
+#     print('model name :',model_name)
+#     print('signal process :', method)
+#     print('denoise :', denoise )
+    
+#     dataset = DroneDataset(label_option=label_option, method=method, test=True, audio_dir=data_path,
+#                        parameters=model.hparams,denoise=denoise)
+#     dataloader = DataLoader(dataset=dataset, batch_size=64, shuffle=False, num_workers=0)
+    
+#     return model, dataloader
+
 def load_model_data(folder, model_name, ckpt, data_path):
     hyper = EasyDict({'lr' : 0.0003,
                     'max_epochs' :50,
@@ -43,20 +75,21 @@ def load_model_data(folder, model_name, ckpt, data_path):
     
     hyper.folder = folder
     model = get_model(model_name, hyper)
-    model = model.load_model(ckpt)
-    label_option = model.hparams.label_option
-    method = model.hparams.method
-    denoise = model.hparams.denoise
+    state = torch.load('model_ckpt/'+ckpt+'.ckpt')
+    model.load_state_dict(state['state_dict'])
+    
+    label_option = state['hyper_parameters'].label_option
+    method = state['hyper_parameters'].method
+    denoise = state['hyper_parameters'].denoise
     print('model name :',model_name)
     print('signal process :', method)
     print('denoise :', denoise )
-    
+    model.hparams = state['hyper_parameters']
     dataset = DroneDataset(label_option=label_option, method=method, test=True, audio_dir=data_path,
                        parameters=model.hparams,denoise=denoise)
     dataloader = DataLoader(dataset=dataset, batch_size=64, shuffle=False, num_workers=0)
     
     return model, dataloader
-    
     
 class Each_NN(Model_template):
     def __init__(self, hyperparameters, verbose=True):

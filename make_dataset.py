@@ -33,6 +33,7 @@ class DroneDataset(Dataset):
         self.denoise = denoise
         self.validation = validation
         self.type_ = datetype
+        
     def __len__(self):
         if self.test:
             if self.audio_dir[-1] == '/':
